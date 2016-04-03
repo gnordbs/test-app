@@ -1,0 +1,286 @@
+/*!
+ * Start Bootstrap - Full HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+    //margin-top: 50px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+	margin:0px;
+}
+
+.margin-tip-navbar {
+	height: 50px;
+}
+
+body > .ember-view {
+    height: 100%;
+}
+
+html,body{height:100%;}
+
+/* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
+
+.full {
+ height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.cars {
+height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+ background: url('/assets/images/u0_state0.jpg') no-repeat center center fixed;
+ background-size: cover;
+ }
+
+.legs {
+	height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+ //background: url('http://wallpapercave.com/wp/9uzgY0h.jpg') no-repeat center center fixed;
+	background: url('/assets/images/u0_state1.jpg') no-repeat center center fixed;
+background-size: cover;	
+}
+
+.trigger_l {
+ float: left;
+ width: 50%;
+  height:100%;
+ 
+}
+
+.trigger_r {
+ float: right;
+ width: 50%;
+height:100%;
+}
+
+.height-full {
+ height: 100%;
+}
+
+.to_bot_l{
+position:absolute;
+bottom: 10%;
+left: 25%;
+margin-left: -50px;
+width: 100px;
+
+	background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+	height: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.to_bot_r{
+position:absolute;
+bottom: 10%;
+left: 75%;
+margin-left: -50px;
+width: 100px;
+
+	background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+	height: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.map-canvas {
+	position: absolute;
+    top: 0px;
+	bottom: 0px;
+        width: 100%;
+}
+
+.map-canvas_olddd {
+        height: 700px;
+        width: 100%;
+}
+
+#gmaps_context_menu_my{
+  background:#ffffff;
+  border:1px solid #8888FF;
+  z-index: 10;
+  position: relative;
+  width: 140px;
+  list-style-type: none;
+	padding: 5px;
+	text-align: center;
+}
+
+#gmaps_context_menu_my div{
+  border:1px solid #8888FF;
+}
+#gmaps_context_menu_my div:hover{
+ 
+}
+
+#gmaps_context_menu_my li{
+	cursor:pointer;
+	
+}
+
+#gmaps_context_menu_my li:hover{
+	background: #adadad;
+}
+
+.contextmenu div{
+padding-left: 5px
+}
+
+#pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+ }
+
+ #pac-input:focus {
+        border-color: #4d90fe;
+ }
+ 
+ #pac-input2 {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+ }
+
+ #pac-input2:focus {
+        border-color: #4d90fe;
+ }
+ 
+ #pac-clear {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+		 margin-top: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+ }
+
+    .pac-container {
+        font-family: Roboto;
+      }
+	  
+.controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.left_menu_cont {
+	overflow-y: auto;
+	height: 100%;
+	max-width: 400px;
+	background: rgba(255, 255, 255, 1.0);
+	padding: 5px;
+}
+
+.left_menu_cont_dis {
+	
+	background: rgba(255, 255, 255, 1.0);
+	padding: 5px;
+}
+
+.left_menu_cont_in {
+	background: rgba(255, 255, 255, 1.0);
+	padding: 5px;
+}
+
+.input_for_description{
+	padding: 10px 20px 10px 20px;
+}
+
+.descButton {
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Arial;
+  color: #000000;
+  font-size: 26px;
+  padding: 10px 20px 10px 20px;
+  border: solid #bdbdbd 2px;
+  text-decoration: none;
+}
+
+.descButton:hover {
+  background: #e5e7e8;
+  text-decoration: none;
+}
+
+.homeButton {
+	z-index: 100;
+	position: absolute;
+	right: 10px;
+	-webkit-border-radius: 3;
+	-moz-border-radius: 3;
+	border-radius: 3px;
+	font-family: Arial;
+	color: #000000;
+	font-size: 26px;
+	padding: 10px 20px 10px 20px;
+	border: solid #bdbdbd 2px;
+	text-decoration: none;
+}
+
+.info_bar { 
+	width: 200px;
+	height:200px;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background-color: #ffffff;
+	border: solid #bdbdbd 2px;
+	padding: 10px;
+	z-index: 100;
+}
+.info_bar div{
+	padding: 10px;
+}
+
+.close {
+    float:right;
+    background:#ccc;
+	cursor: pointer;
+	float: right;
+	border: solid #bdbdbd 2px;
+	width:20px;
+	height:20px;
+	text-align:center;
+}
+
+.close:hover {
+    background:#f00;
+}

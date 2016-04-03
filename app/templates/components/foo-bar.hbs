@@ -1,0 +1,34 @@
+<div>qqqqqqqqqqqqqqqqqqqqq</div>
+<ul>
+  {{#each-in categories as |category products|}}
+    <li>{{category}}
+      <ol>
+        {{#each products as |product|}}
+          <li>{{product}}</li>
+        {{/each}}
+      </ol>
+    </li>
+  {{/each-in}}
+</ul>
+
+
+
+<h3><button {{action "toggleBody" allowedKeys="alt"}}>zxfgsdfgggggggggggg</button></h3>
+{{#if isShowingBody}}
+  <p>qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq</p>
+{{/if}}
+
+
+{{input value="http://www.facebook.com"}}
+
+
+
+	
+
+{{input value=firstName key-press="updateFirstName"}}
+<div>{{firstName2}}</div>
+
+{{input type="checkbox" name="isAdmin" checked=isAdmin}}
+
+
+{{yield}}

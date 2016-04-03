@@ -1,0 +1,70 @@
+
+		<div id="pac-input-holder" class={{leftMenuContStyle}}>
+			<div  class="left_menu_cont_in">
+				<div>
+					<input id="pac-input" class="controls" type="text" placeholder="From">
+				</div>
+				<div>
+					<input id="pac-input2" class="controls" type="text" placeholder="To">
+				</div>
+				
+				{{#if isShowingInputDescription}}
+					<div id="input_route_info_name" class="input_for_description">
+						{{input value=descName placeholder="Name"}}
+					</div>	
+					<div id="input_route_info_desc" class="input_for_description">
+						{{input value=routeDescription placeholder="Provide some route description"}}
+					</div>
+					<div id="input_route_info_number" class="input_for_description">
+						{{input value=phoneNumber placeholder="Enter phone number"}}
+					</div>
+					<div id="input_route_info_radio" class="input_for_description">
+						Both Directions
+						{{input type='checkbox' checked=infoBothDirection}}
+					</div>
+						
+					<div id="input_route_info_date" class="input_for_description">
+						One day route {{input type='checkbox' checked=infoIsOneTime}}
+						<div>
+							{{#if infoIsOneTime}}
+								{{input type='date' value=infoEndDate}}												
+							{{/if}}	
+						</div>
+					</div>
+					
+					
+					<button {{action "saveRouteDescription"}}>SaveRoute</button>	
+				{{/if}}
+				{{#if isShowingOutputDescription}}
+					<div id="input_route_info_options" class="input_for_description">
+						One day route {{input type='checkbox' checked=filterOptionsOneDay}}
+						Both Directions {{input type='checkbox' checked=filterOptionsBothDirections}}
+						
+					</div>
+					<button {{action "saveSearchOptions"}}>Find routes</button>
+				{{/if}}
+				<div id="output_route_info" style={{descriptionStyle}}>
+				
+				</div>
+			</div>
+		</div>
+
+	
+		<button id="pac-clear" {{action "clearMyRoute"}}>Clear route</button>
+		<div class="homeButton">
+			{{#link-to 'index'}}
+				HOME
+			{{/link-to}}
+		</div>
+		{{#if isShowingInfoBar}}
+			{{info-bar name=infoName phone=infoPhone desc=infoDesc date=infoEndDate  closeInfoBar="clIfB"}}
+		{{/if}}
+
+<div class="row">
+	<div class="col-xs-12 ">
+		{{map-place choseStartP="startPointChosen" choseFinP="startPointChosen2" choseMidP="choseMiddle" mapInserted = "initMap"}}
+	</div>
+</div>
+
+
+
