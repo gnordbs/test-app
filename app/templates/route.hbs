@@ -1,4 +1,3 @@
-
 		<div id="pac-input-holder" class={{leftMenuContStyle}}>
 			<div  class="left_menu_cont_in">
 				<div>
@@ -7,9 +6,7 @@
 				<div>
 					<input id="pac-input2" class="controls" type="text" placeholder="To">
 				</div>
-				
-
-				
+								
 				{{#if isShowingInputDescription}}
 					<div id="input_route_info_name" class="input_for_description">
 						{{input value=descName placeholder="Name"}}
@@ -45,8 +42,8 @@
 					</div>
 					<button {{action "saveSearchOptions"}}>Find routes</button>
 				{{/if}}
-				<div id="output_route_info" style={{descriptionStyle}}>
-				
+				<div id="output_route_info">
+					{{#routes-list routes=dispPolylineArray routeChosen="routeChosen"}}{{/routes-list}}
 				</div>
 			</div>
 		</div>
@@ -63,9 +60,8 @@
 
 <div class="row">
 	<div class="col-xs-12 ">
-		{{map-place choseStartP="startPointChosen" choseFinP="startPointChosen2" choseMidP="choseMiddle" mapInserted = "initMap"}}
+		{{map-place mapInserted = "initMap"}}
 	</div>
 </div>
-
 
 

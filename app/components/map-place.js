@@ -3,79 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
     insertMap: function() {
-		/*var thisComp = this;
-		var map = new GMaps({
-			div: '.map-canvas',
-			zoom: 16,
-			lat: 46.484888,
-			lng: 30.732687,
-		});
-
-       window.map = map;
-
-        map.setContextMenu({
-            control: 'map',
-            options: [{
-                title: 'Middle point',
-                name: 'Middle point',
-                action: function(e) {
-                    thisComp.sendAction('choseMidP', e.latLng);
-                }
-            },{
-                title: 'Start point',
-                name: 'startPoint',
-                action: function(e) {					
-					thisComp.sendAction('choseStartP', e.latLng);			
-                }
-			},{
-                title: 'End point',
-                name: 'endPoint',
-                action: function(e) {                   
-					thisComp.sendAction('choseFinP', e.latLng);
-                }
-            }
-			]
-        });
-		
-		map.setContextMenu({
-			control: 'marker',
-			options: [{
-				title: 'Delete point',
-				name: 'Delete point',
-				action: function(e){
-					thisComp.sendAction('deletePoint', e);
-				}
-			}]
-		});*//*
-		initMap();
-		
-		setContextMenu(window.map, {
-            control: 'map',
-            options: [{
-                title: 'Middle point',
-                name: 'Middle point',
-                action: function(e) {
-                    thisComp.sendAction('choseMidP', e.latLng);
-                }
-				},{
-                title: 'Start point',
-                name: 'startPoint',
-                action: function(e) {					
-					thisComp.sendAction('choseStartP', e.latLng);			
-                }
-				},{
-                title: 'End point',
-                name: 'endPoint',
-                action: function(e) {                   
-					thisComp.sendAction('choseFinP', e.latLng);
-                }
-            }
-			]
-        });*/
 		this.sendAction('mapInserted');
     }.on('didInsertElement'),
-
-
 });
 
 

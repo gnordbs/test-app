@@ -1,0 +1,24 @@
+{{#each routes as |route|}}
+	<div class="descButton">
+		<div {{action "hitDescription" route}} class="descButtonBody"> {{route.storedDescription}}</div>
+	</div>
+	{{#if route.expanded}}
+		<div clas="descHiddenBody">
+			<div>name - 
+				{{route.storedName}}
+			</div>
+			<div>description - 
+				{{route.storedDescription}}
+			</div>
+			
+			<div>phone - 
+				{{route.storedPhone}}
+			</div>
+			{{#if route.descriptionDate}}
+				<div> Type - one day journey - {{route.descriptionDate}}</div>
+			{{else}}
+				<div> Type - regular </div>
+			{{/if}}
+		</div>
+	{{/if}}
+{{/each}}

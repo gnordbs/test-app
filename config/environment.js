@@ -18,6 +18,11 @@ module.exports = function(environment) {
       // when it is created
     }
   };
+  
+	ENV['ember-simple-auth'] = {
+		authenticationRoute: 'index',
+		routeAfterAuthentication: 'driver',
+	};
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
