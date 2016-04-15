@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-	 mouseEnter: function(event) {
-	   //Em.$('body').removeClass('full');
+	 mouseEnter: function() {
 	   this.sendAction('hovered');
   } 	
 });

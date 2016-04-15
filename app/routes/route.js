@@ -3,11 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
     actions: {
-		initMap: function() {
-            this.initMyMap(this);
-			this.clearMarkers();
-			this.clearAllBar();
-		},
+		
 		clearMyRoute:function(){
 			this.clearRoutesMenu();	
 		},
@@ -16,6 +12,14 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		},
 		routeChosen:function(idnum){
 			this.highlightPath(idnum);
+		},
+		didTransition: function() {
+			Ember.run.scheduleOnce('afterRender', this, () => {
+				this.initMyMap(this);
+				this.clearMarkers();
+				this.clearAllBar();
+				console.log("didTransition -> afterrender");
+			});	
 		}
 	},
 	findRouteStart:function(data){
@@ -310,6 +314,10 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 	},
 	// end redo
 	initMyMap:function(newThis){
+		var foo = document.getElementById('map');
+		var foo2 = document.getElementById('map2');
+		
+			
 		var map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 12,
 			center: {

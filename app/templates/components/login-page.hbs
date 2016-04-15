@@ -4,18 +4,18 @@
 	<button{{action "logout"}}>Logout</button>
 {{else}}
 	<h2>{{registertextHead}}</h2>
-	<div {{action "isregistering"}}>{{registertext}}</div>
+	<div id="reg_trigger" {{action "isregistering"}}>{{registertext}}</div>
 	{{#if isregistering}}
 		<form {{action 'register' on='submit'}}>
-			{{input value=login placeholder='Login'}}<br>
-			{{input value=password placeholder='Password' type='password'}}<br>
-			<button type="submit">Register</button>
+			{{input class="login" value=login placeholder='Login'}}<br>
+			{{input class="password" value=password placeholder='Password' type='password'}}<br>
+			<button class="submit" type="submit">Register</button>
 		</form>
 	{{else}}
 		<form {{action 'authenticate' on='submit'}}>
-			{{input value=login placeholder='Login'}}<br>
-			{{input value=password placeholder='Password' type='password'}}<br>
-			<button type="submit">Login</button>
+			{{input class="login" value=login placeholder='Login'}}<br>
+			{{input class="password" value=password placeholder='Password' type='password'}}<br>
+			<button class="submit" type="submit">Login</button>
 		</form>
 	{{/if}}
 {{/if}}

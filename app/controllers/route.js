@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
 		if(day < 10) day = '0' + day;
 		if(month < 10) month = '0' + month;
 		var formatedToday = year + '-' + month + '-' + day;
-		this.infoEndDate = formatedToday;
+		this.infoEndDate = formatedToday;			
 	},
 	isdriverService: Ember.inject.service('isdriver'),
 	isDriver: Ember.computed('isdriverService', function() {

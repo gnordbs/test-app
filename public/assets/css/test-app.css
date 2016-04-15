@@ -35,7 +35,7 @@ height: 100%;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
- background: url('/assets/images/u0_state0.jpg') no-repeat center center fixed;
+ background: url('/assets/images/u0_state1.jpg') no-repeat center center fixed;
  background-size: cover;
  }
 
@@ -45,8 +45,7 @@ height: 100%;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
- //background: url('http://wallpapercave.com/wp/9uzgY0h.jpg') no-repeat center center fixed;
-	background: url('/assets/images/u0_state1.jpg') no-repeat center center fixed;
+	background: url('/assets/images/u0_state0.jpg') no-repeat center center fixed;
 background-size: cover;	
 }
 
@@ -105,7 +104,7 @@ width: 100px;
 	position:absolute;
 	bottom: 50%;
 	left: 25%;
-	background: rgba(255,255,255,1.0);
+	background-color: rgb(255,255,255); opacity: 1.0;
 	width: 200px;
 	margin-left: -100px;
 	padding:10px;
@@ -116,7 +115,7 @@ width: 100px;
 	position:absolute;
 	bottom: 50%;
 	left: 25%;
-	background: rgba(225,225,225,0.5);
+	background-color: rgb(255,255,255); opacity: 0.5;
 	width: 200px;
 	margin-left: -100px;
 	padding:10px;

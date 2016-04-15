@@ -6,7 +6,7 @@ export default OAuth2PasswordGrant.extend({
 */
 
 export default OAuth2PasswordGrant.extend({
-	serverTokenEndpoint: 'http://54.213.148.158:1337/api/oauth/token',
+	serverTokenEndpoint: 'http://54.187.251.191:1337/api/oauth/token',
    
    makeRequest: function(url,data) {
     data.client_id = 'emberweb';

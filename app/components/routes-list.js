@@ -9,6 +9,9 @@ export default Ember.Component.extend({
 				this.sendAction('routeChosen', route.routeId);
 				Ember.set(route, 'expanded', true);		
 			}
+		},
+		deleteRoute: function(route){
+			this.sendAction('deleteRoute', route.routeId);	
 		}
-	}
+	},
 });

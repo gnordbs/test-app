@@ -3,6 +3,9 @@
 		<div {{action "hitDescription" route}} class="descButtonBody"> {{route.storedDescription}}</div>
 	</div>
 	{{#if route.expanded}}
+		{{#if editable}}	
+			<button {{action "deleteRoute" route}}>Delete route</button>
+		{{/if}}
 		<div clas="descHiddenBody">
 			<div>name - 
 				{{route.storedName}}

@@ -22,28 +22,30 @@ export default Ember.Component.extend({
 	actions: {
 		authenticate() {
 			const { login, password } = this.getProperties('login', 'password');
-			this.get('authManager').authenticate('authenticator:oauth2', login, password).then((response) => {
-				alert('Success! Click the top link!');
-			}, (err) => {
-				alert('Error obtaining token---: ' + err.responseText);
+			this.get('authManager').authenticate('authenticator:oauth2', login, password).then(() => {
+				//alert('Success!');
+			}, (reason) => {
+				alert(reason.error_description);
+				//alert('Error obtaining token---: ' + err.responseText);
 			});
 		},
 		logout(){
 			this.get('authManager').invalidate().then(() => {
 				alert('Success! ');
-				}, (err) => {
-				alert('Error o-: ' + err.responseText);
-			});;
+				}, (reason) => {
+				alert(reason.error_description);
+				//alert('Error o-: ' + err.responseText);
+			});
 		},
 		register() {
 			const { login, password } = this.getProperties('login', 'password');
 			
 			Ember.$.ajax({
 				method: "POST",
-				url: "http://54.213.148.158:1337/api/users",
+				url: "http://54.187.251.191:1337/api/users",
 				data: { username: login, password: password }
-				}).then((result) => {
-				alert(result);
+				}).then(() => {
+					alert('Success!');
 			});
 		},
 		isregistering()	{

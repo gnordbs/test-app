@@ -8,7 +8,10 @@
 				</div>
 				
 				{{#if authManager.isAuthenticated}}
-					<div>Logged in as {{currentUserId}}</div>
+					<div>
+						<div>Logged in as {{currentUserId}}</div>
+						<button {{action "deleteUser"}}>Delete user</button>
+					</div>
 					
 					{{#if isShowingInputDescription}}
 						<div id="input_route_info_name" class="input_for_description">
@@ -45,7 +48,7 @@
 					
 				{{/if}}
 				<div id="output_route_info" class = 'foo'>
-					{{#routes-list routes=dispPolylineArray routeChosen="routeChosen"}}{{/routes-list}}
+					{{#routes-list routes=dispPolylineArray routeChosen="routeChosen" deleteRoute="deleteRoute" editable=true}}{{/routes-list}}
 				</div>
 			</div>
 		</div>
@@ -62,7 +65,7 @@
 
 <div class="row">
 	<div class="col-xs-12 ">
-		{{map-place choseStartP="startPointChosen" choseFinP="startPointChosen2" choseMidP="choseMiddle" mapInserted = "initMap"}}
+		<div class="map-canvas" id = "map"></div>
 	</div>
 </div>
 

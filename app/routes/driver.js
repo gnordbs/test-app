@@ -6,22 +6,24 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		willTransition(transition) {
 			this.controller.set('dispPolylineArray', []);			
 		},
-		initMap: function() {
-			var self = this;
-            this.initMyMap(this);
-			this.clearMarkers();
-			this.clearAllBar();
-			
-			this.findBorderCrossWord();
-			
-			this.store.queryRecord('user', {}).then(function (data) {
-				self.controller.set('currentUserId', data.id);
-				self.loadRoutesForUser(data);				
-			});
-		},
 		clearMyRoute:function(){
 			this.clearRoutesMenu();
-			
+		},
+		didTransition: function() {
+			Ember.run.scheduleOnce('afterRender', this, () => {
+				var self = this;
+				this.initMyMap(this);
+				this.clearMarkers();
+				this.clearAllBar();
+				
+				this.findBorderCrossWord();
+				
+				this.store.queryRecord('user', {}).then(function (data) {
+					self.controller.set('currentUserId', data.id);
+					self.loadRoutesForUser(data);				
+				});
+				console.log("didTransition -> afterrender");
+			});	
 		},
 		saveRouteDescription:function(){
 			this.saveCurrentRoute();	
@@ -31,6 +33,44 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 		},
 		routeChosen:function(idnum) {
 			this.highlightPath(idnum);
+		},
+		deleteRoute:function(idnum) {
+			var self = this;
+			/*this.store.findRecord('route', idnum).then(function(route) {
+				//route.destroyRecord();
+				route.deleteRecord();
+				route.get('isDeleted'); 
+				route.save().then(
+					(dude) => {
+						self.refreshUserRoutes();
+					}, 
+					function(error){
+						alert(error);
+				}); 
+			});*/
+			
+
+			
+			var route = this.store.peekRecord('route', idnum);
+			route.destroyRecord().then(
+				(dude) => {
+					self.refreshUserRoutes();
+				}, 
+				function(error){
+					alert(error);
+			}); 
+		},
+		deleteUser: function(){
+			var id = this.controller.get('currentUserId');		
+			var route = this.store.peekRecord('user', id);
+			
+			route.destroyRecord().then(
+				() => {
+					this.logout();
+				}, 
+				function(error){
+					alert(error);
+			});
 		}
 	},
 	startPointChosen:function(data){
@@ -572,6 +612,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 			self.loadRoutesForUser(data);				
 		});				
 	},
+	logout:function(){
+			this.controller.get('authManager').invalidate().then(() => {
+				alert('Success! ');
+				}, (reason) => {
+				alert(reason.error_description);
+			});
+		},
 });
 
 
