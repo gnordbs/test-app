@@ -3,7 +3,7 @@ export default function() {
 	this.get('/waypoints', function() {
 		return savedRoutes;
 	});
-	this.get('/waypoints/:id', function() {
+	this.get('/waypoints/:id', function(request) {
 		var id = request.params.id;
 		
 		return {

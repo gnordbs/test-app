@@ -10,8 +10,12 @@ export default Ember.Controller.extend({
 		var year = today.getFullYear();
 		var month = today.getMonth();
 		var day = today.getDate();
-		if(day < 10){day = '0' + day};
-		if(month < 10){month = '0' + month};
+		if(day < 10) {
+			day = '0' + day;
+		}
+		if(month < 10) {
+			month = '0' + month;
+		}
 		var formatedToday = year + '-' + month + '-' + day;
 		this.infoEndDate = formatedToday;
 	},
@@ -20,6 +24,10 @@ export default Ember.Controller.extend({
 		//alert(this.get('isdriverService').get('is_driver'));
 		return this.get('isdriverService').get('is_driver');		
 	}),
+	map: null,
+	directionsService: null,
+	directionsDisplay: null,
+	geocoder: null,
 	currentUserId: '',
 	currentRouteOnMap: [],
 	dispPolylineArray: [],

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+//import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
     actions: {
@@ -32,15 +32,14 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		
 		var mark = new google.maps.Marker({
 			position: data,
-			map: map,
-			//icon: "http://diplomat.md/wp-content/uploads/2015/06/google-location-icon-Location_marker_pin_map_gps.png",
+			map: this.controller.get('map'),
 		});
 		
 		this.controller.set('startMarkerFind', mark);
 		this.updateRouteFind();
 		
-		getInfoForPoint(data,  function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
+		Geomcalc.getInfoForPoint(data,  function(results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
 				if(results)	{
 					self.controller.set('filterOptionsStartId', results);	
 				}
@@ -59,14 +58,14 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		
 		var mark = new google.maps.Marker({
 			position: data,
-			map: map,
+			map: this.controller.get('map'),
 		});
 		
 		this.controller.set('endMarkerFind', mark);
 		this.updateRouteFind();	
 		
-		getInfoForPoint(data,  function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
+		Geomcalc.getInfoForPoint(data,  function(results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
 				if(results)	{
 					self.controller.set('filterOptionsEndId', results);	
 				}
@@ -96,7 +95,7 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 			if(optionsOpened){
 				this.getPathFromStore();	
 			} else {
-				this.controller.set('isShowingOutputDescription', true)	
+				this.controller.set('isShowingOutputDescription', true);	
 			}		
 		}	
 	},
@@ -141,16 +140,16 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		var bidirectional = this.controller.get('filterOptionsBothDirections');			
 		var filterOptionsOneDay = this.controller.get('filterOptionsOneDay');	
 		
-		var distance = getDistanceBetweenPoints(pointStart, pointEnd);
+		var distance = Geomcalc.getDistanceBetweenPoints(pointStart, pointEnd);
 		this.setToleranceForRouteDistance(distance);
 		var tolerance = this.controller.get('tolerance');
 		//this.drawDebugCircles(pointStart, pointEnd);	// debug
 		
-		var allPolygons = getRoutesFromServerResponse(routesFromServer);
-		var constant_oneFiltered = filterRoutesByOneTime(allPolygons, filterOptionsOneDay);
-		var startSortedPolygons = filterRoutesNearPoint(constant_oneFiltered,pointStart, tolerance);
-		var endSortedPolygons = filterRoutesNearPoint(startSortedPolygons,pointEnd, tolerance);
-		var directionSortedPolygons = filterRoutesByDirections(endSortedPolygons,pointStart,pointEnd,bidirectional);
+		var allPolygons = Geomcalc.getRoutesFromServerResponse(routesFromServer);
+		var constant_oneFiltered = Geomcalc.filterRoutesByOneTime(allPolygons, filterOptionsOneDay);
+		var startSortedPolygons = Geomcalc.filterRoutesNearPoint(constant_oneFiltered,pointStart, tolerance);
+		var endSortedPolygons = Geomcalc.filterRoutesNearPoint(startSortedPolygons,pointEnd, tolerance);
+		var directionSortedPolygons = Geomcalc.filterRoutesByDirections(endSortedPolygons,pointStart,pointEnd,bidirectional);
 		this.storeFilteredPolygons(directionSortedPolygons);
 		
 		this.showStoredRoutes();
@@ -165,14 +164,14 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 	},
 	showStoredRoutes:function(){
 		var filteredPolys = this.controller.get('dispPolylineArray');
-		filteredPolys.forEach(function(item, index, enumerable){
+		filteredPolys.forEach(function(item, index){
 			item.index = index;
-			item.polyline.setMap(map);
+			item.polyline.setMap(this.controller.get('map'));
 		});
 	},
 	highlightPath: function(index_of_poly){
 		var filteredPoly = this.controller.get('dispPolylineArray');
-		filteredPoly.forEach(function(item, index, enumerable){
+		filteredPoly.forEach(function(item){
 			var itIndex = item.routeId;
 			if(itIndex === index_of_poly){
 				item.polyline.set('strokeColor', '#FF0000');
@@ -187,20 +186,18 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 			}			
 		});	
 	},
-	showAllRoutes:function(e){		
+	showAllRoutes:function(){		
 		this.getPathFromStoreUnfiltered();
 	},
 	displayUnhilteredResults:function(routesFromServer){
 		this.clearRoutesOnly();
-		var allPolygons = getRoutesFromServerResponse(routesFromServer);
+		var allPolygons = Geomcalc.getRoutesFromServerResponse(routesFromServer);
 		
 		var newArr = Ember.A();
 		for(let i = 0, lng = allPolygons.length; i < lng; i++){
 			newArr.pushObject(allPolygons[i]);
 		}
 		
-		var foo = Ember.A(allPolygons);
-		var bar = Ember.A([1,2,3,4,5,6]);
 		this.storeFilteredPolygons(newArr);
 	
 		this.showStoredRoutes();
@@ -224,7 +221,7 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		});
 
 		let dispRouteArray = this.controller.get('dispPolylineArray');
-		dispRouteArray.forEach(function(item, index, enumerable){
+		dispRouteArray.forEach(function(item){
 			item.polyline.setMap(null);
 			item = null;
 		});
@@ -285,12 +282,9 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 	},
 	parceResponseForBorders:function(response){
 		var borderCode = this.controller.get('parcingBorderName');
-		var self = this;
+		var borderPoints = [];
+		
 		if(borderCode){
-			
-			var index = 0;
-			var borderPoints = [];
-	
 			var legs = response.routes[0].legs;
 			for (var i = 0; i < legs.length; i++) {
 				var steps = legs[i].steps;
@@ -299,7 +293,7 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 					var codePosition = instructions.indexOf(borderCode);
 					if(codePosition >= 0){
 						var pointFunc = steps[j].start_location;
-						var point = {lat: pointFunc.lat(), lng: pointFunc.lng()}
+						var point = {lat: pointFunc.lat(), lng: pointFunc.lng()};
 						borderPoints.push(point);
 						//borderPoints.push(steps[j].end_location);						
 					}	
@@ -314,10 +308,6 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 	},
 	// end redo
 	initMyMap:function(newThis){
-		var foo = document.getElementById('map');
-		var foo2 = document.getElementById('map2');
-		
-			
 		var map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 12,
 			center: {
@@ -329,26 +319,22 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 				position: google.maps.ControlPosition.RIGHT_BOTTOM
 			}
 		});
-		//rtrrrrrdd
-		window.map = map;
-		var service = new google.maps.places.PlacesService(map);
-		window.service = service;
-		var geocoder = new google.maps.Geocoder();
-		window.geocoder = geocoder;
+		this.controller.set('map', map);
+		Geomcalc.google = google;
 		
 		google.maps.event.addListener(map, "rightclick", function(event) {
-			buildContextMenuHTML(event.latLng);
+			Geomcalc.buildContextMenuHTML(event.latLng);
 		});
 		google.maps.event.addListener(map, "click", function(event) {
 			var context_menu_element = document.getElementById('gmaps_context_menu_my');
-			if (context_menu_element.style.display == 'block') {
+			if (context_menu_element.style.display === 'block') {
 				context_menu_element.style.display = 'none';
 			} else {
-				buildContextMenuHTML(event.latLng);	
+				Geomcalc.buildContextMenuHTML(event.latLng);	
 			}
 		});
 		
-		var directionsService = new google.maps.DirectionsService;
+		var directionsService = new google.maps.DirectionsService();
 		var directionsDisplay = new google.maps.DirectionsRenderer({
 			draggable: true,
 			map: map,
@@ -356,8 +342,8 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 			suppressMarkers: true
 		});
 		
-		window.directionsService = directionsService;
-		window.directionsDisplay = directionsDisplay;
+		this.controller.set('directionsService', directionsService);
+		this.controller.set('directionsDisplay', directionsDisplay);
 		
 		directionsDisplay.addListener('directions_changed', function() {
 			var changedDirSet = this.getDirections();	
@@ -383,7 +369,7 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		searchBox.addListener('places_changed', function() {
 				var places = searchBox.getPlaces();
 				
-				if (places.length == 0) {
+				if (places.length === 0) {
 					return;
 				}
 				places.forEach(function(place) {
@@ -402,7 +388,7 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 		searchBox2.addListener('places_changed', function() {
 			var places = searchBox2.getPlaces();
 			
-			if (places.length == 0) {
+			if (places.length === 0) {
 				return;
 			}
 			places.forEach(function(place) {
@@ -417,87 +403,85 @@ export default Ember.Route.extend(/*AuthenticatedRouteMixin,*/{
 			});
 			
 		
-		})
-		
-		//var driver =this.controller.get('isdriverService').get('is_driver');
-		//if(driver){
-			defineContextMenu({
-				options: [{
-					title: 'Find route from here',
-					name: 'Find route from here',
-					action: function(e) {
-						newThis.findRouteStart(e);
-					}
-					},{
-					title: 'Find route to here',
-					name: 'Find route to here',
-					action: function(e) {
-						newThis.findRouteEnd(e);
-					}
-					},{
-					title: 'clear routes',
-					name: 'clear routes',
-					action: function(e) {
-						newThis.clearRoutesMenu(e);
-					}
-					},{
-					title: 'Min Distance To Route',
-					name: 'Min Distance To Route',
-					action: function(e) {
-						newThis.defineMinDistanceToRoute(e);
-					}
-					},{
-					title: 'test',
-					name: 'test',
-					action: function(e) {
-						newThis.testMethod(e);
-					}
-					},{
-					title: 'Show all routes',
-					name: 'Show all routes',
-					action: function(e) {
-						newThis.showAllRoutes(e);
-					}
-					},{
-					title: 'send 1',
-					name: 'send 1',
-					action: function(e) {
-						newThis.send1(e);
-					}
-					},{
-					title: 'send 2',
-					name: 'send 2',
-					action: function(e) {
-						newThis.send2(e);
-					}
-					},{
-					title: 'get 1',
-					name: 'get 1',
-					action: function(e) {
-						newThis.get1(e);
-					}
-					},{
-					title: 'get 2',
-					name: 'get 2',
-					action: function(e) {
-						newThis.get2(e);
-					}
+		});
+	
+		Geomcalc.defineContextMenu({
+			options: [{
+				title: 'Find route from here',
+				name: 'Find route from here',
+				action: function(e) {
+					newThis.findRouteStart(e);
 				}
-				]
-			});	
-		//} 
+				},{
+				title: 'Find route to here',
+				name: 'Find route to here',
+				action: function(e) {
+					newThis.findRouteEnd(e);
+				}
+				},{
+				title: 'clear routes',
+				name: 'clear routes',
+				action: function(e) {
+					newThis.clearRoutesMenu(e);
+				}
+				},{
+				title: 'Min Distance To Route',
+				name: 'Min Distance To Route',
+				action: function(e) {
+					newThis.defineMinDistanceToRoute(e);
+				}
+				},{
+				title: 'test',
+				name: 'test',
+				action: function(e) {
+					newThis.testMethod(e);
+				}
+				},{
+				title: 'Show all routes',
+				name: 'Show all routes',
+				action: function(e) {
+					newThis.showAllRoutes(e);
+				}
+				},{
+				title: 'send 1',
+				name: 'send 1',
+				action: function(e) {
+					newThis.send1(e);
+				}
+				},{
+				title: 'send 2',
+				name: 'send 2',
+				action: function(e) {
+					newThis.send2(e);
+				}
+				},{
+				title: 'get 1',
+				name: 'get 1',
+				action: function(e) {
+					newThis.get1(e);
+				}
+				},{
+				title: 'get 2',
+				name: 'get 2',
+				action: function(e) {
+					newThis.get2(e);
+				}
+			}
+			]
+		});	
+	
 				
 	},
 	getPathFromStore:function(){		
-		var startCity = this.controller.get('filterOptionsStartId').name;
-		var endCity = this.controller.get('filterOptionsEndId').name;
+		//var startCity = this.controller.get('filterOptionsStartId').name;
+		//var endCity = this.controller.get('filterOptionsEndId').name;
 		var startPlaceId = this.controller.get("filterOptionsStartId").id;
 		var endPlaceId = this.controller.get("filterOptionsEndId").id;
 		var startPlaceCountry = this.controller.get("filterOptionsStartId").country;
 		var endPlaceCountry = this.controller.get("filterOptionsEndId").country;
 		var pointStart = this.controller.get('startMarkerFind').position;
 		var pointEnd = this.controller.get('endMarkerFind').position;
-		var distance = getDistanceBetweenPoints(pointStart, pointEnd);
+		var distance = Geomcalc.getDistanceBetweenPoints(pointStart, pointEnd);
 		
 		var queryParams = {
 			"startPlaceId":startPlaceId,

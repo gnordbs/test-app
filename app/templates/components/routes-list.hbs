@@ -1,6 +1,6 @@
 {{#each routes as |route|}}
 	<div class="descButton">
-		<div {{action "hitDescription" route}} class="descButtonBody"> {{route.storedDescription}}</div>
+		<div {{action "hitDescription" route}} class="descButtonBody">{{route.storedDescription}}</div>
 	</div>
 	{{#if route.expanded}}
 		{{#if editable}}	

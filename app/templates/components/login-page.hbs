@@ -6,13 +6,13 @@
 	<h2>{{registertextHead}}</h2>
 	<div id="reg_trigger" {{action "isregistering"}}>{{registertext}}</div>
 	{{#if isregistering}}
-		<form {{action 'register' on='submit'}}>
+		<form id="logform" class="register_form"{{action 'register' on='submit'}}>
 			{{input class="login" value=login placeholder='Login'}}<br>
 			{{input class="password" value=password placeholder='Password' type='password'}}<br>
 			<button class="submit" type="submit">Register</button>
 		</form>
 	{{else}}
-		<form {{action 'authenticate' on='submit'}}>
+		<form id="logform" class="login_form"{{action 'authenticate' on='submit'}}>
 			{{input class="login" value=login placeholder='Login'}}<br>
 			{{input class="password" value=password placeholder='Password' type='password'}}<br>
 			<button class="submit" type="submit">Login</button>
